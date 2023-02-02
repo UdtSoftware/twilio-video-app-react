@@ -130,7 +130,7 @@ describe('the usePasscodeAuth hook', () => {
       await waitForNextUpdate();
 
       await act(async () => {
-        result.current.getToken('test-name', 'test-room');
+        result.current.getToken('test-name', 'test-room', '');
       });
 
       expect(window.fetch).toHaveBeenLastCalledWith('/token', {
@@ -153,7 +153,7 @@ describe('the usePasscodeAuth hook', () => {
       await waitForNextUpdate();
 
       await act(async () => {
-        result.current.getToken('test-name', 'test-room');
+        result.current.getToken('test-name', 'test-room', '');
       });
 
       expect(window.fetch).toHaveBeenLastCalledWith('/token', {
@@ -178,7 +178,7 @@ describe('the usePasscodeAuth hook', () => {
 
       let token = '';
       await act(async () => {
-        token = await result.current.getToken('test-name', 'test-room');
+        token = await result.current.getToken('test-name', 'test-room', '');
       });
       expect(token).toEqual({ token: 'mockVideoToken' });
     });
@@ -198,7 +198,7 @@ describe('the usePasscodeAuth hook', () => {
         Promise.resolve({ status: 401, json: () => Promise.resolve({ error: { message: 'passcode expired' } }) })
       );
 
-      result.current.getToken('test-name', 'test-room').catch(err => {
+      result.current.getToken('test-name', 'test-room', '').catch(err => {
         expect(err.message).toBe('Passcode has expired');
       });
     });

@@ -13,6 +13,7 @@ export function fetchToken(
   name: string,
   room: string,
   passcode: string,
+  password: string,
   create_room = true,
   create_conversation = process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true'
 ) {
@@ -25,6 +26,31 @@ export function fetchToken(
       user_identity: name,
       room_name: room,
       passcode,
+      password,
+      create_room,
+      create_conversation,
+    }),
+  });
+}
+
+export function fetchPasscode(
+  name: string,
+  room: string,
+  passcode: string,
+  password: string,
+  create_room = true,
+  create_conversation = process.env.REACT_APP_DISABLE_TWILIO_CONVERSATIONS !== 'true'
+) {
+  return fetch(endpoint + '-passcode', {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      user_identity: name,
+      room_name: room,
+      passcode,
+      password,
       create_room,
       create_conversation,
     }),
@@ -32,18 +58,23 @@ export function fetchToken(
 }
 
 export function verifyPasscode(passcode: string) {
-  return fetchToken('temp-name', 'temp-room', passcode, false /* create_room */, false /* create_conversation */).then(
-    async res => {
-      const jsonResponse = await res.json();
-      if (res.status === 401) {
-        return { isValid: false, error: jsonResponse.error?.message };
-      }
-
-      if (res.ok && jsonResponse.token) {
-        return { isValid: true };
-      }
+  return fetchPasscode(
+    'temp-name',
+    'temp-room',
+    passcode,
+    '',
+    false /* create_room */,
+    false /* create_conversation */
+  ).then(async res => {
+    const jsonResponse = await res.json();
+    if (res.status === 401) {
+      return { isValid: false, error: jsonResponse.error?.message };
     }
-  );
+
+    if (res.ok && jsonResponse.token) {
+      return { isValid: true };
+    }
+  });
 }
 
 export function getErrorMessage(message: string) {
@@ -64,8 +95,8 @@ export default function usePasscodeAuth() {
   const [isAuthReady, setIsAuthReady] = useState(false);
 
   const getToken = useCallback(
-    (name: string, room: string) => {
-      return fetchToken(name, room, user!.passcode)
+    (name: string, room: string, password: string) => {
+      return fetchToken(name, room, user!.passcode, password)
         .then(async res => {
           if (res.ok) {
             return res;

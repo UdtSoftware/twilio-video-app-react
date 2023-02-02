@@ -14,12 +14,14 @@ export enum Steps {
 
 export default function PreJoinScreens() {
   const { user } = useAppState();
+
   const { getAudioAndVideoTracks } = useVideoContext();
   const { URLRoomName } = useParams<{ URLRoomName?: string }>();
   const [step, setStep] = useState(Steps.roomNameStep);
 
   const [name, setName] = useState<string>(user?.displayName || '');
   const [roomName, setRoomName] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const [mediaError, setMediaError] = useState<Error>();
 
@@ -58,15 +60,16 @@ export default function PreJoinScreens() {
       {step === Steps.roomNameStep && (
         <RoomNameScreen
           name={name}
-          roomName={roomName}
+          password={password}
           setName={setName}
-          setRoomName={setRoomName}
+          setPassword={setPassword}
           handleSubmit={handleSubmit}
         />
       )}
 
       {step === Steps.deviceSelectionStep && (
-        <DeviceSelectionScreen name={name} roomName={roomName} setStep={setStep} />
+        // @ts-ignore
+        <DeviceSelectionScreen name={name} roomName={user!.passcode} password={password} setStep={setStep} />
       )}
     </IntroContainer>
   );

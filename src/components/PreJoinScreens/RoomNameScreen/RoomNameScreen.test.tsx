@@ -11,13 +11,7 @@ describe('the RoomNameScreen component', () => {
   it('should render correctly when there is no logged in user', () => {
     mockUseAppState.mockImplementationOnce(() => ({ user: undefined }));
     const wrapper = shallow(
-      <RoomNameScreen
-        name="test"
-        roomName="testRoom"
-        setName={() => {}}
-        setRoomName={() => {}}
-        handleSubmit={() => {}}
-      />
+      <RoomNameScreen name="test" password="" setName={() => {}} setPassword={() => {}} handleSubmit={() => {}} />
     );
 
     expect(wrapper.text()).toContain("Enter your name and the name of a room you'd like to join");
@@ -27,13 +21,7 @@ describe('the RoomNameScreen component', () => {
   it('should render correctly when there is a logged in user', () => {
     mockUseAppState.mockImplementationOnce(() => ({ user: { displayName: 'Test Name' } }));
     const wrapper = shallow(
-      <RoomNameScreen
-        name="test"
-        roomName="testRoom"
-        setName={() => {}}
-        setRoomName={() => {}}
-        handleSubmit={() => {}}
-      />
+      <RoomNameScreen name="test" password="" setName={() => {}} setPassword={() => {}} handleSubmit={() => {}} />
     );
 
     expect(wrapper.text()).toContain("Enter the name of a room you'd like to join");
@@ -52,13 +40,7 @@ describe('the RoomNameScreen component', () => {
     };
 
     const wrapper = shallow(
-      <RoomNameScreen
-        name="test"
-        roomName="testRoom"
-        setName={() => {}}
-        setRoomName={() => {}}
-        handleSubmit={() => {}}
-      />
+      <RoomNameScreen name="test" password="" setName={() => {}} setPassword={() => {}} handleSubmit={() => {}} />
     );
 
     expect(wrapper.text()).toContain("Enter your name and the name of a room you'd like to join");

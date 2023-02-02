@@ -29,13 +29,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface RoomNameScreenProps {
   name: string;
-  roomName: string;
+  password: string;
   setName: (name: string) => void;
-  setRoomName: (roomName: string) => void;
+  setPassword: (password: string) => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }
 
-export default function RoomNameScreen({ name, roomName, setName, setRoomName, handleSubmit }: RoomNameScreenProps) {
+export default function RoomNameScreen({ name, password, setName, setPassword, handleSubmit }: RoomNameScreenProps) {
   const classes = useStyles();
   const { user } = useAppState();
 
@@ -43,8 +43,8 @@ export default function RoomNameScreen({ name, roomName, setName, setRoomName, h
     setName(event.target.value);
   };
 
-  const handleRoomNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setRoomName(event.target.value);
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
   };
 
   const hasUsername = !window.location.search.includes('customIdentity=true') && user?.displayName;
@@ -77,17 +77,18 @@ export default function RoomNameScreen({ name, roomName, setName, setRoomName, h
             </div>
           )}
           <div className={classes.textFieldContainer}>
-            <InputLabel shrink htmlFor="input-room-name">
-              Room Name
+            <InputLabel shrink htmlFor="input-password">
+              Password
             </InputLabel>
             <TextField
               autoCapitalize="false"
-              id="input-room-name"
+              id="input-password"
               variant="outlined"
               fullWidth
               size="small"
-              value={roomName}
-              onChange={handleRoomNameChange}
+              value={password}
+              onChange={handlePasswordChange}
+              type="password"
             />
           </div>
         </div>
@@ -96,7 +97,7 @@ export default function RoomNameScreen({ name, roomName, setName, setRoomName, h
             variant="contained"
             type="submit"
             color="primary"
-            disabled={!name || !roomName}
+            disabled={!name || !password}
             className={classes.continueButton}
           >
             Continue
