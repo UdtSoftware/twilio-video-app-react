@@ -93,13 +93,7 @@ export default function RoomNameScreen({ name, password, setName, setPassword, h
           </div>
         </div>
         <Grid container justifyContent="flex-end">
-          <Button
-            variant="contained"
-            type="submit"
-            color="primary"
-            disabled={!name || !password}
-            className={classes.continueButton}
-          >
+          <Button variant="contained" type="submit" color="primary" disabled={!name} className={classes.continueButton}>
             Continue
           </Button>
         </Grid>
